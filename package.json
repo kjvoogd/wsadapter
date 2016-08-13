@@ -1,0 +1,32 @@
+{
+  "name": "wsadapter",
+  "version": "1.0.0",
+  "description": "a simple websocket adapter for hubot",
+  "main": "src/wsadapter.coffee",
+  "dependencies": {
+  },
+  "peerDependencies": {
+  "hubot": ">=2.0"
+  },
+  "devDependencies": {
+  "coffee-script": ">=1.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjvoogd/wsadapter.git"
+  },
+  "keywords": [
+    "hubot",
+    "websocket",
+    "adapter"
+  ],
+  "author": "cj voogd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kjvoogd/wsadapter/issues"
+  },
+  "homepage": "https://github.com/kjvoogd/wsadapter#readme"
+}
