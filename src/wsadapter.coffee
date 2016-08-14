@@ -1,4 +1,12 @@
-{Robot, Adapter, TextMessage, EnterMessage, LeaveMessage, TopicMessage, CatchAllMessage, User} = require('hubot')
+
+try
+  {Robot, Adapter, TextMessage, EnterMessage, LeaveMessage, TopicMessage, CatchAllMessage, User} = require 'hubot'
+catch
+  prequire = require('parent-require')
+  {Robot, Adapter, TextMessage, EnterMessage, LeaveMessage, TopicMessage, CatchAllMessage, User} = prequire 'hubot'
+
+
+#{Robot, Adapter, TextMessage, EnterMessage, LeaveMessage, TopicMessage, CatchAllMessage, User} = require('hubot')
 
 io            = require('socket.io-client')
 
@@ -13,12 +21,11 @@ class wsAdapter extends Adapter
     super
     self=@
     
-    @robot.logger.info " Adapter Bot Loaded..."
+    @robot.logger.info "wsAdapter bot Loaded..."
     
 
   send: (envelope, strings...) ->
-    console.log("in send method")
-    #console.log chalk.bold("#{str}") for str in strings
+    #console.log("in send method")
     #socket.emit 'message', 'message': "#{str}" for str in strings
    
     #verbose but then I can see what is going on:
@@ -47,21 +54,20 @@ class wsAdapter extends Adapter
 
 
   shutdown: () ->
-    console.log("shutdown function called..")
+    @robot.logger.info "shutdown function called.."
     #@robot.shutdown()
     #process.exit 0
 
   buildWebSocket: () ->
 
-    console.log("websocket being build")
-    @robot.logger.info "scoping the robot"
+    @robot.logger.info "websocket being build"
 
     socket = io.connect('http://localhost:3000')
     
 
     socket.on 'conEvt', ((data) ->
-      console.log 'connection event recieved back from chat server'
-      console.log data
+      @robot.logger.info "connection event recieved back from chat server"
+      @robot.logger.info data
       socket.emit 'join', 'user': 'hubot'
       socket.emit 'joinRoom', 'room': 'hubot'
       return
@@ -69,20 +75,20 @@ class wsAdapter extends Adapter
 
     #adding general error handler...
     socket.on 'error', (error) ->
-      console.log 'socket was in error '
-      console.log error
+      @robot.logger.error "socket was in error"
+      @robot.logger.error error
       return
 
     socket.on 'error',->
-      console.log 'socket was in error '
+      @robot.logger.error socket was in error
       
 
     #recieving messages from chat server...
     #I really hate this sytax on getting around scoping issues...
 
     socket.on 'message', ((data) ->
-      console.log 'message recieved from the chat server'
-      console.log data
+      @robot.logger.info "message recieved from the chat server"
+      @robot.logger.info data
      
       #need userID and userName.  
       this.robot.logger.info "recieving message and accessing the robot..."
