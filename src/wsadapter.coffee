@@ -1,20 +1,8 @@
-fs       = require('fs')
-readline = require('readline')
-stream   = require('stream')
-cline    = require('cline')
-chalk    = require('chalk')
-
 {Robot, Adapter, TextMessage, EnterMessage, LeaveMessage, TopicMessage, CatchAllMessage, User} = require('hubot')
 
 io            = require('socket.io-client')
 
 
-historySize = if process.env.HUBOT_SHELL_HISTSIZE?
-                parseInt(process.env.HUBOT_SHELL_HISTSIZE)
-              else
-                1024
-
-historyPath = ".hubot_history"
 
 class wsAdapter extends Adapter
 
@@ -57,12 +45,6 @@ class wsAdapter extends Adapter
     @emit 'connected'
     @buildWebSocket()
 
-    #@buildCli()
-
-    #@loadHistory (history) =>
-    #  @cli.history(history)
-    #  @cli.interact("#{@robot.name}> ")
-    #  @emit 'connected'
 
   shutdown: () ->
     console.log("shutdown function called..")
@@ -118,31 +100,6 @@ class wsAdapter extends Adapter
     ).bind(this)
 
 
-
-
-
-
-  # Private: load history from .hubot_history.
-  #
-  # callback - A Function that is called with the loaded history items (or an empty array if there is no history)
-  loadHistory: (callback) ->
-    fs.exists historyPath, (exists) ->
-      if exists
-        instream = fs.createReadStream(historyPath)
-        outstream = new stream
-        outstream.readable = true
-        outstream.writable = true
-
-        items = []
-        rl = readline.createInterface(input: instream, output: outstream, terminal: false)
-        rl.on 'line', (line) ->
-          line = line.trim()
-          if line.length > 0 
-            items.push(line)
-        rl.on 'close', () ->
-          callback(items)
-      else
-        callback([])
 
 exports.use = (robot) ->
   new wsAdapter robot

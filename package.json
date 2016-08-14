@@ -1,9 +1,10 @@
 {
-  "name": "wsadapter",
+  "name": "hubot-wsadapter",
   "version": "1.0.1",
   "description": "a simple websocket adapter for hubot",
   "main": "src/wsadapter.coffee",
   "dependencies": {
+    "parent-require":"^1.0.0"
   },
   "peerDependencies": {
   "hubot": ">=2.0"
